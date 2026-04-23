@@ -5,9 +5,12 @@ import helmet from 'helmet';
 import usersRouter  from './modules/users/users.routes.js';   
 import v1Routes from './api/v1/index.js';
 import { errorMiddleware } from './middlewares/error.middlewares.js';
+import path from 'path';
+
 
 export const app = express();
 
+app.use(express.static('src/public'));
 app.use(cors());
 app.use(compression());
 app.use(helmet());

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Auth</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+h2 {
+  text-align: center;
+}
+
+.msg {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.success { color: #22c55e; }
+.error { color: #ef4444; }
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🔐 Login</h2>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Entrar</button>
+
+<hr>
+
+<h2>📝 Registro</h2>
+<input id="nameR" placeholder="Nombre">
+<input id="emailR" placeholder="Email">
+<input id="passwordR" type="password" placeholder="Password">
+<button onclick="register()">Registrarse</button>
+
+<p id="msg" class="msg"></p>
+
+</div>
+
+<script>
+async function login() {
+  const res = await fetch('http://localhost:3000/api/v1/auth/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  });
+
+  const data = await res.json();
+
+  if(data.token){
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userId', data.user.id);
+    window.location.href = "dashboard.html";
+  } else {
+    msg.innerHTML = "❌ Login incorrecto";
+    msg.className = "msg error";
+  }
+}
+
+async function register() {
+  const res = await fetch('http://localhost:3000/api/v1/auth/register', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: nameR.value,
+      email: emailR.value,
+      password: passwordR.value
+    })
+  });
+
+  const data = await res.json();
+
+  if(data.token){
+    msg.innerHTML = "✅ Usuario creado, ahora puedes iniciar sesión";
+    msg.className = "msg success";
+  } else {
+    msg.innerHTML = "❌ Error al registrar";
+    msg.className = "msg error";
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    background: #020617;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+.event {
+    background: #334155;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>📅 Dashboard de Eventos</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Crear Evento</h2>
+
+<input id="title" placeholder="Título">
+<input id="description" placeholder="Descripción">
+<input id="date" placeholder="Fecha">
+
+<button onclick="createEventApi()">Crear Evento</button>
+
+</div>
+
+<div class="card">
+<h2>Eventos</h2>
+<button onclick="getEvents()">Cargar Eventos</button>
+<div id="events"></div>
+</div>
+
+</div>
+
+<script>
+const token = localStorage.getItem('token');
+const userId = localStorage.getItem('userId');
+
+// 🔒 PROTECCIÓN
+if(!token){
+    window.location.href = "login.html";
+}
+
+async function createEventApi() {
+    const res = await fetch('http://localhost:3000/api/v1/events', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+        title: title.value,
+        description: description.value,
+        date: date.value,
+        userId: userId
+    })
+    });
+
+    const data = await res.json();
+    alert("Evento creado");
+}
+
+async function getEvents() {
+    const res = await fetch('http://localhost:3000/api/v1/events');
+    const data = await res.json();
+
+    events.innerHTML = '';
+
+    data.forEach(e => {
+        const div = document.createElement('div');
+        div.className = 'event';
+        div.innerHTML = `<b>${e.title}</b><br>${e.description}<br>${e.date}`;
+        events.appendChild(div);
+    });
+}
+</script>
+
+</body>
+</html>

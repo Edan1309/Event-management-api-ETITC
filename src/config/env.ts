@@ -6,7 +6,7 @@ dotenv.config();
 export const env ={
 
     port : Number(process.env.PORT) || 3000,
-    mongoUri: process.env.MONGO_URI || '',
+    mongoUri: process.env.MONGO_URI || 'mongodb+srv://Pepito:123456.@cluster0.pwf2vo0.mongodb.net/?appName=Cluster0',
     mongoDbName: process.env.MONGO_DB_NAME || 'Prueba',
 
 jwtSecret: process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30',
