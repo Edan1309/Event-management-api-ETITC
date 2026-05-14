@@ -72,4 +72,27 @@ if (!isValidPassword){
             token,
         }
 }
+
+async profile(id: string) {
+
+    const user = await this.repository.findById(id);
+
+    if(!user){
+        throw new Error('Usuario no encontrado');
+    }
+
+    return user;
 }
+
+async update(id: string, data: any) {
+
+    return this.repository.update(id, data);
+}
+
+async delete(id: string) {
+
+    return this.repository.delete(id);
+}
+
+}
+

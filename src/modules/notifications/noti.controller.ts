@@ -1,18 +1,22 @@
 import type { Request, Response } from "express";
-import { EventsService } from "./events.service.js";
+import { NotificationsService } from "./noti.service.js";
 
-export class EventsController {
-    private service = new EventsService();
+export class NotificationsController {
+
+    private service = new NotificationsService();
 
     create = async (req: Request, res: Response) => {
         const result = await this.service.create(req.body);
         res.status(201).json(result);
-    };
+    }
 
-    findAll = async (req: Request, res: Response) => {
-        const result = await this.service.findAll();
+    findByUser = async (
+        req: Request<{ userId: string }>,
+        res: Response
+    ) => {
+        const result = await this.service.findByUser(req.params.userId);
         res.json(result);
-    };
+    }
 
     update = async (
     req: Request<{ id: string }>,
@@ -25,7 +29,7 @@ export class EventsController {
     );
 
     res.status(200).json({
-        message: 'Evento actualizado',
+        message: 'Notificación actualizada',
         data: result
     });
     }
@@ -38,7 +42,9 @@ export class EventsController {
     await this.service.delete(req.params.id);
 
     res.status(200).json({
-        message: 'Evento eliminado'
+        message: 'Notificación eliminada'
     });
-}
+    }
+
+    
 }

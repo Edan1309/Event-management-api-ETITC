@@ -1,21 +1,22 @@
 import { getDb } from "../../config/database.js";
-import type { Event } from "./events.model.js";
+import type { Notification } from "./noti.model.js";
 import { ObjectId } from "mongodb";
 
-export class EventsRepository {
+export class NotificationsRepository {
+
     private collection() {
-        return getDb().collection<Event>('events');
+        return getDb().collection<Notification>('notifications');
     }
 
-    async create(data: Event) {
+    async create(data: Notification) {
         const result = await this.collection().insertOne(data);
         return { _id: result.insertedId, ...data };
     }
 
-    async findAll() {
-        return this.collection().find().toArray();
+    async findByUser(userId: string) {
+        return this.collection().find({ userId }).toArray();
     }
-    
+
     async update(id: string, data: any) {
 
     await this.collection().updateOne(
@@ -27,6 +28,7 @@ export class EventsRepository {
         _id: new ObjectId(id)
     });
     }
+
     async delete(id: string) {
 
     return this.collection().deleteOne({

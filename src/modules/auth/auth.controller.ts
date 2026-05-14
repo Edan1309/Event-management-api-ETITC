@@ -23,4 +23,68 @@ export class authController {
             next(error)
 }
     }
+profile = async (
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) => {
+
+    try {
+
+        const result = await this.authService.profile(
+            req.params.id
+        );
+
+        res.status(200).json({
+            message: 'Perfil obtenido',
+            data: result
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+update = async (
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) => {
+
+    try {
+
+        const result = await this.authService.update(
+            req.params.id,
+            req.body
+        );
+
+        res.status(200).json({
+            message: 'Usuario actualizado',
+            data: result
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+delete = async (
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) => {
+
+    try {
+
+        await this.authService.delete(req.params.id);
+
+        res.status(200).json({
+            message: 'Usuario eliminado'
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 }

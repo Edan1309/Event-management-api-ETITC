@@ -1,6 +1,15 @@
 import { type Request, type Response,  type NextFunction } from "express";
 
-export const errorMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorMiddleware = (
+    err: Error,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+
     console.error(err);
-    res.status(500).json({ message: 'ERROR DEL SERVIDOR' });
+
+    res.status(500).json({
+        message: err.message
+    });
 }
