@@ -1,139 +1,251 @@
-# 🎟️ Event Management API
+# EventHub API
 
-API REST desarrollada con Node.js, Express y MongoDB que permite la gestión de usuarios, autenticación, creación de eventos y registro de participantes.
-
----
-
-## 🚀 Tecnologías utilizadas
-
-* Node.js
-* Express
-* MongoDB
-* TypeScript
-* JWT (Autenticación)
-* Bcrypt (Encriptación)
-* Zod (Validaciones)
+API REST desarrollada con **Node.js**, **Express**, **TypeScript** y **MongoDB** para la gestión de eventos, usuarios, registros, feedback y notificaciones.
 
 ---
 
-## 📁 Estructura del proyecto
+# 🚀 Tecnologías utilizadas
 
-El proyecto sigue una arquitectura modular por capas:
-
-* **Routes** → Definición de endpoints
-* **Controller** → Manejo de solicitudes HTTP
-* **Service** → Lógica de negocio
-* **Repository** → Acceso a base de datos
-
----
-
-## 🔐 Autenticación
-
-Se utiliza JWT para proteger rutas privadas.
-
-* Registro de usuario
-* Login con generación de token
-* Middleware de autenticación
+- Node.js
+- Express
+- TypeScript
+- MongoDB
+- JWT Authentication
+- Swagger
+- Zod
+- Bcrypt
+- Cors
+- Helmet
+- Compression
 
 ---
 
-## 📦 Módulos
-
-### 👤 Users
-
-* Registro de usuarios
-* Listado de usuarios
-
-### 🔐 Auth
-
-* Login
-* Registro
-* Generación de token
-
-### 📅 Events
-
-* Crear eventos
-* Listar eventos
-
-### 🎟️ Registrations
-
-* Registro a eventos
-* Consulta de participantes por evento
-
----
-
-## 📌 Endpoints principales
-
-### 🔐 Auth
-
-* POST `/api/v1/auth/register`
-* POST `/api/v1/auth/login`
-
-### 👤 Users
-
-* POST `/api/v1/users/register`
-* GET `/api/v1/users`
-
-### 📅 Events
-
-* POST `/api/v1/events`
-* GET `/api/v1/events`
-
-### 🎟️ Registrations
-
-* POST `/api/v1/registrations`
-* GET `/api/v1/registrations/:eventId`
-
----
-
-## ⚙️ Instalación
-
-1. Clonar repositorio:
+# 📁 Estructura del proyecto
 
 ```bash
-git clone https://github.com/TU-USUARIO/event-management-api.git
+src/
+│
+├── api/
+│   └── v1/
+│       └── index.ts
+│
+├── config/
+│   ├── database.ts
+│   ├── env.ts
+│   └── openapi.ts
+│
+├── libs/
+│   ├── bcrypt.ts
+│   └── jwt.ts
+│
+├── middlewares/
+│   ├── auth.middleware.ts
+│   ├── error.middleware.ts
+│   └── validate.middleware.ts
+│
+├── modules/
+│   ├── auth/
+│   ├── users/
+│   ├── events/
+│   ├── registrations/
+│   ├── feedback/
+│   └── notifications/
+│
+├── app.ts
+└── server.ts
 ```
 
-2. Instalar dependencias:
+---
+
+# 🔐 Autenticación
+
+La API utiliza autenticación JWT.
+
+Para acceder a rutas protegidas:
+
+1. Registrar usuario
+2. Hacer login
+3. Copiar token
+4. Usar Bearer Token
+
+Ejemplo:
+
+```http
+Authorization: Bearer TOKEN
+```
+
+---
+
+# 📦 Instalación
+
+## Clonar repositorio
+
+```bash
+git clone https://github.com/TU-USUARIO/eventhub-api.git
+```
+
+---
+
+## Entrar al proyecto
+
+```bash
+cd eventhub-api
+```
+
+---
+
+## Instalar dependencias
 
 ```bash
 npm install
 ```
 
-3. Configurar variables de entorno en `.env`:
+---
+
+# ⚙️ Variables de entorno
+
+Crear archivo `.env`
 
 ```env
 PORT=3000
-MONGO_URI=tu_uri_de_mongo
-MONGO_DB_NAME=nombre_db
-JWT_SECRET=tu_secreto
+
+MONGO_URI=TU_URI_MONGODB
+
+MONGO_DB_NAME=eventsdb
+
+JWT_SECRET=secretkey
+
+JWT_EXPIRATION=1d
 ```
 
-4. Ejecutar el proyecto:
+---
+
+# ▶️ Ejecutar proyecto
 
 ```bash
 npm run dev
 ```
 
----
+Servidor:
 
-## 🧪 Pruebas
-
-Se recomienda usar Postman para probar los endpoints.
-
-1. Registrar usuario
-2. Iniciar sesión
-3. Copiar token
-4. Usar Bearer Token en endpoints protegidos
+```bash
+http://localhost:3000
+```
 
 ---
 
-## 🎯 Objetivo del proyecto
+# 📚 Swagger
 
-Este proyecto fue desarrollado con fines educativos para implementar una arquitectura backend escalable utilizando buenas prácticas como separación de responsabilidades y modularización.
+Documentación disponible en:
+
+```bash
+http://localhost:3000/api-docs
+```
 
 ---
 
-## 👨‍💻 Autor
+# 📌 Módulos implementados
 
-Desarrollado por Edwin Celis 🚀
+## 🔑 Auth
+
+- Register
+- Login
+
+## 👤 Users
+
+- Create
+- Get
+- Update
+- Delete
+
+## 📅 Events
+
+- Create
+- Get
+- Update
+- Delete
+
+## 📝 Registrations
+
+- Register user to event
+- Get registrations
+- Update
+- Delete
+
+## ⭐ Feedback
+
+- Create feedback
+- Get feedbacks
+- Update
+- Delete
+
+## 🔔 Notifications
+
+- Create notification
+- Get notifications
+- Update
+- Delete
+
+---
+
+# 🧪 Ejemplo Login
+
+## Endpoint
+
+```http
+POST /api/v1/auth/login
+```
+
+## Body
+
+```json
+{
+  "email": "edwin@test.com",
+  "password": "123456"
+}
+```
+
+---
+
+# 🧪 Ejemplo Crear Evento
+
+## Endpoint
+
+```http
+POST /api/v1/events
+```
+
+## Headers
+
+```http
+Authorization: Bearer TOKEN
+```
+
+## Body
+
+```json
+{
+  "title": "Evento Node",
+  "description": "Evento de prueba",
+  "date": "2026-05-14",
+  "userId": "6a059d56e766ccb68b5cdb1b"
+}
+```
+
+---
+
+# 🛡️ Seguridad implementada
+
+- JWT Authentication
+- Password Hashing con Bcrypt
+- Helmet
+- Validación con Zod
+- Manejo de errores global
+
+---
+
+# 👨‍💻 Autor
+
+Edwin Celis
+
+Proyecto académico desarrollado para prácticas de API REST con Node.js y MongoDB.
