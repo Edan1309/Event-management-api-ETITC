@@ -21,7 +21,7 @@ export const openApiSpec = swaggerJsdoc({
             },
             {
                 url:'https://event-management-api-etitc.onrender.com/',
-                description: 'servidor web'
+                description: 'servidor render'
             }
         ],
         components: {
