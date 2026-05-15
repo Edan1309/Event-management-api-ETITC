@@ -10,4 +10,18 @@ export class RegistrationsService {
     findByEvent(eventId: string) {
         return this.repository.findByEvent(eventId);
     }
+    findAll() {
+
+    return this.repository.findAll();
+}
+
+update(id: string, data: any) {
+
+    return this.repository.update(id, data);
+}
+
+delete(id: string) {
+
+    return this.repository.delete(id);
+}
 }
